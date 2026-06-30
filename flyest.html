@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flyest — Travel Essentials at 35,000 ft</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #0a0f1e; color: #e8eaf0; }
+
+  .site-header {
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.5px solid #1e2d4a;
+    position: sticky;
+    top: 0;
+    background: #0a0f1e;
+    z-index: 100;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-name { font-size: 20px; font-weight: 600; letter-spacing: 1px; color: #fff; }
+  .logo-name span { color: #4a9eff; }
+  .nav { display: flex; gap: 24px; }
+  .nav a { font-size: 12px; color: #7a90b0; text-decoration: none; letter-spacing: 0.5px; text-transform: uppercase; transition: color 0.2s; }
+  .nav a:hover { color: #4a9eff; }
+
+  .hero {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 40px 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  .hero-text { flex: 1; }
+  .hero-tag {
+    display: inline-block;
+    font-size: 11px;
+    color: #4a9eff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    padding: 5px 16px;
+    border: 0.5px solid #1e3a6a;
+    border-radius: 20px;
+  }
+  .hero-title { font-size: 48px; font-weight: 300; line-height: 1.15; color: #fff; margin-bottom: 14px; }
+  .hero-title strong { font-weight: 600; color: #4a9eff; }
+  .hero-sub { font-size: 15px; color: #6a80a0; max-width: 340px; line-height: 1.8; margin-bottom: 28px; }
+  .hero-cta {
+    display: inline-block;
+    padding: 12px 32px;
+    background: #1a4a9a;
+    color: #fff;
+    font-size: 13px;
+    border-radius: 28px;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    border: 0.5px solid #2a5aba;
+    transition: background 0.2s;
+  }
+  .hero-cta:hover { background: #1e56b8; }
+
+  .stats {
+    display: flex;
+    gap: 48px;
+    padding: 28px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-top: 0.5px solid #0e1e3a;
+    border-bottom: 0.5px solid #0e1e3a;
+  }
+  .stat-num { font-size: 28px; font-weight: 600; color: #fff; }
+  .stat-label { font-size: 11px; color: #4a6080; text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; }
+
+  .categories-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 40px 0;
+  }
+  .section-title {
+    font-size: 11px;
+    color: #4a9eff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 0.5px; background: #0e1e3a; }
+
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 36px;
+  }
+  .tab {
+    background: #0d1830;
+    border: 0.5px solid #1a2a4a;
+    border-radius: 14px;
+    padding: 16px 10px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    text-decoration: none;
+    display: block;
+  }
+  .tab:hover { border-color: #2a5aba; }
+  .tab.active { border-color: #4a9eff; background: #0f2040; }
+  .tab-illo { height: 52px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+  .tab-name { font-size: 10px; color: #7a90b0; font-weight: 500; line-height: 1.4; }
+
+  .cat-section { display: none; }
+  .cat-section.active { display: block; }
+
+  .products {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 48px;
+  }
+  @media (min-width: 700px) {
+    .products { grid-template-columns: repeat(4, 1fr); }
+  }
+  .product-card {
+    background: #0d1830;
+    border: 0.5px solid #1a2a4a;
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .product-card:hover { border-color: #2a5aba; transform: translateY(-2px); }
+  .product-illo {
+    width: 100%;
+    height: 90px;
+    background: #0a1628;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+  .product-name { font-size: 13px; color: #c8d4e8; font-weight: 500; line-height: 1.4; margin-bottom: 8px; flex: 1; }
+  .product-price { font-size: 16px; color: #4a9eff; font-weight: 600; margin-bottom: 10px; }
+  .product-btn {
+    display: inline-block;
+    font-size: 11px;
+    padding: 6px 14px;
+    border: 0.5px solid #1e3a6a;
+    border-radius: 10px;
+    color: #7a90b0;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .product-card:hover .product-btn { border-color: #4a9eff; color: #4a9eff; }
+
+  footer {
+    border-top: 0.5px solid #0e1e3a;
+    padding: 24px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #3a5070;
+  }
+
+  @media (max-width: 600px) {
+    .hero { flex-direction: column; padding: 36px 20px 28px; }
+    .hero-title { font-size: 32px; }
+    .hero-illo { display: none; }
+    .site-header { padding: 16px 20px; }
+    .nav { gap: 12px; }
+    .stats { padding: 20px; gap: 24px; }
+    .categories-wrapper { padding: 32px 16px 0; }
+    .tabs { grid-template-columns: repeat(3, 1fr); }
+    .tabs .tab:last-child { grid-column: span 3; max-width: 180px; margin: 0 auto; }
+    footer { flex-direction: column; gap: 6px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="logo" href="#">
+    <svg width="34" height="34" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="16" fill="#0f2550"/>
+      <g transform="translate(6,10) rotate(-10,10,6)">
+        <path d="M2 7 L18 5 L20 7 L18 9 L2 8 Z" fill="#4a9eff"/>
+        <path d="M5 8 L9 13 L11 12 L10 8 Z" fill="#2a6acc"/>
+        <path d="M13 8 L15 11 L17 10 L16 8 Z" fill="#2a6acc"/>
+        <circle cx="18.5" cy="7" r="1.5" fill="#7ac4ff"/>
+      </g>
+    </svg>
+    <span class="logo-name">fly<span>est</span></span>
+  </a>
+  <nav class="nav">
+    <a href="#" onclick="showCat('comfort'); return false;">Comfort</a>
+    <a href="#" onclick="showCat('health'); return false;">Health</a>
+    <a href="#" onclick="showCat('kids'); return false;">Kids</a>
+    <a href="#" onclick="showCat('org'); return false;">Gear</a>
+    <a href="#" onclick="showCat('crew'); return false;">Crew</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-tag">Altitude 35,000 ft · Your travel store</div>
+    <h1 class="hero-title">Fly smarter.<br><strong>Live lighter.</strong></h1>
+    <p class="hero-sub">Curated travel essentials — tested at 35,000 ft, delivered to your door.</p>
+    <a href="https://www.amazon.com/s?k=travel+essentials+airplane&tag=flyest08-20" class="hero-cta">Shop all gear</a>
+  </div>
+  <div class="hero-illo">
+    <svg width="340" height="220" viewBox="0 0 340 220">
+      <circle cx="30" cy="24" r="1.8" fill="#7ac4ff" opacity="0.6"/>
+      <circle cx="80" cy="12" r="1.2" fill="#fff" opacity="0.5"/>
+      <circle cx="200" cy="15" r="1.8" fill="#fff" opacity="0.6"/>
+      <circle cx="300" cy="20" r="1.2" fill="#fff" opacity="0.4"/>
+      <circle cx="260" cy="36" r="1" fill="#7ac4ff" opacity="0.5"/>
+      <circle cx="50" cy="55" r="0.9" fill="#fff" opacity="0.3"/>
+      <circle cx="290" cy="58" r="1" fill="#7ac4ff" opacity="0.4"/>
+      <ellipse cx="40" cy="158" rx="42" ry="20" fill="#0f2040" opacity="0.9"/>
+      <ellipse cx="22" cy="168" rx="28" ry="14" fill="#0f2040" opacity="0.9"/>
+      <ellipse cx="65" cy="168" rx="24" ry="13" fill="#0f2040" opacity="0.9"/>
+      <ellipse cx="285" cy="165" rx="52" ry="22" fill="#0f2040" opacity="0.9"/>
+      <ellipse cx="262" cy="176" rx="30" ry="16" fill="#0f2040" opacity="0.9"/>
+      <ellipse cx="318" cy="174" rx="26" ry="14" fill="#0f2040" opacity="0.9"/>
+      <g transform="translate(60,82)">
+        <path d="M10 22 Q44 12 164 18 Q176 22 164 28 Q44 34 10 22 Z" fill="#1a3a7a"/>
+        <path d="M162 18 Q184 22 162 28 Z" fill="#2a5aaa"/>
+        <path d="M74 22 L104 52 L134 46 L118 22 Z" fill="#163070"/>
+        <path d="M74 22 L102 2 L128 8 L118 22 Z" fill="#1a3a8a"/>
+        <path d="M24 22 L16 34 L34 30 L36 22 Z" fill="#163070"/>
+        <path d="M24 22 L17 12 L34 14 L36 22 Z" fill="#1a3a8a"/>
+        <rect x="88" y="16" width="12" height="9" rx="3" fill="#4a9eff" opacity="0.7"/>
+        <rect x="108" y="16" width="12" height="9" rx="3" fill="#4a9eff" opacity="0.7"/>
+        <rect x="128" y="16" width="12" height="9" rx="3" fill="#7ac4ff" opacity="0.5"/>
+        <ellipse cx="108" cy="46" rx="10" ry="6" fill="#0f2050"/>
+        <ellipse cx="108" cy="46" rx="7" ry="4" fill="#1a3a7a"/>
+        <ellipse cx="120" cy="46" rx="4" ry="3" fill="#4a9eff" opacity="0.3"/>
+        <path d="M10 22 Q-14 22 -58 20" stroke="#4a9eff" stroke-width="2" fill="none" opacity="0.2" stroke-dasharray="5 5"/>
+        <path d="M10 22 Q-14 24 -58 26" stroke="#fff" stroke-width="1" fill="none" opacity="0.1" stroke-dasharray="4 7"/>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<div class="stats">
+  <div><div class="stat-num">20+</div><div class="stat-label">Products</div></div>
+  <div><div class="stat-num">5</div><div class="stat-label">Categories</div></div>
+  <div><div class="stat-num">★ 4.8</div><div class="stat-label">Avg rating</div></div>
+</div>
+
+<div class="categories-wrapper">
+  <div class="section-title">Categories</div>
+
+  <div class="tabs">
+    <div class="tab active" id="tab-comfort" onclick="showCat('comfort')">
+      <div class="tab-illo">
+        <svg width="44" height="44" viewBox="0 0 44 44">
+          <rect x="6" y="18" width="32" height="20" rx="8" fill="#163070"/>
+          <rect x="9" y="21" width="26" height="14" rx="5" fill="#1a3a8a"/>
+          <path d="M10 16 Q22 10 34 16 Q34 22 22 22 Q10 22 10 16Z" fill="#4a9eff"/>
+          <ellipse cx="16" cy="18" rx="4" ry="3" fill="#0a1a40"/>
+          <ellipse cx="28" cy="18" rx="4" ry="3" fill="#0a1a40"/>
+          <path d="M10 16 Q6 16 5 18" stroke="#2a5aba" stroke-width="1.5" fill="none"/>
+          <path d="M34 16 Q38 16 39 18" stroke="#2a5aba" stroke-width="1.5" fill="none"/>
+          <text x="30" y="12" font-size="9" fill="#4a9eff" opacity="0.7" font-family="Inter,sans-serif" font-weight="600">z z</text>
+        </svg>
+      </div>
+      <div class="tab-name">Comfort &amp; Sleep</div>
+    </div>
+
+    <div class="tab" id="tab-health" onclick="showCat('health')">
+      <div class="tab-illo">
+        <svg width="44" height="44" viewBox="0 0 44 44">
+          <path d="M16 8 L16 36 Q16 40 20 40 L24 40 Q28 40 28 36 L28 8 Q28 4 22 4 Q16 4 16 8Z" fill="#163070"/>
+          <path d="M16 20 L28 20" stroke="#4a9eff" stroke-width="1.5" opacity="0.5"/>
+          <path d="M16 25 L28 25" stroke="#4a9eff" stroke-width="1.5" opacity="0.5"/>
+          <path d="M16 30 L28 30" stroke="#4a9eff" stroke-width="1.5" opacity="0.5"/>
+          <rect x="15" y="7" width="14" height="5" rx="2" fill="#2a5aaa"/>
+          <path d="M6 22 L12 22 L14 16 L17 28 L20 18 L22 24 L24 22 L38 22" stroke="#4a9eff" stroke-width="1.5" fill="none" opacity="0.8"/>
+        </svg>
+      </div>
+      <div class="tab-name">Health &amp; Circulation</div>
+    </div>
+
+    <div class="tab" id="tab-kids" onclick="showCat('kids')">
+      <div class="tab-illo">
+        <svg width="44" height="44" viewBox="0 0 44 44">
+          <circle cx="22" cy="28" r="12" fill="#163070"/>
+          <circle cx="22" cy="14" r="9" fill="#1a3a8a"/>
+          <circle cx="14" cy="7" r="5" fill="#163070"/>
+          <circle cx="14" cy="7" r="3" fill="#0f2550"/>
+          <circle cx="30" cy="7" r="5" fill="#163070"/>
+          <circle cx="30" cy="7" r="3" fill="#0f2550"/>
+          <circle cx="19" cy="13" r="2" fill="#4a9eff" opacity="0.8"/>
+          <circle cx="25" cy="13" r="2" fill="#4a9eff" opacity="0.8"/>
+          <path d="M19 17 Q22 20 25 17" stroke="#4a9eff" stroke-width="1" fill="none"/>
+          <circle cx="11" cy="33" r="5" fill="#163070"/>
+          <circle cx="33" cy="33" r="5" fill="#163070"/>
+        </svg>
+      </div>
+      <div class="tab-name">Kids &amp; Babies</div>
+    </div>
+
+    <div class="tab" id="tab-org" onclick="showCat('org')">
+      <div class="tab-illo">
+        <svg width="44" height="44" viewBox="0 0 44 44">
+          <rect x="8" y="10" width="28" height="26" rx="5" fill="#163070"/>
+          <rect x="11" y="13" width="22" height="8" rx="3" fill="#0f2050"/>
+          <rect x="11" y="24" width="10" height="7" rx="2" fill="#0f2050"/>
+          <rect x="23" y="24" width="10" height="7" rx="2" fill="#0f2050"/>
+          <path d="M10 10 Q22 7 34 10" stroke="#2a5aaa" stroke-width="2" fill="none"/>
+          <circle cx="22" cy="8" r="2.5" fill="#4a9eff"/>
+          <path d="M27 17 Q32 17 34 22 Q36 27 32 30" stroke="#4a9eff" stroke-width="1.5" fill="none" opacity="0.7"/>
+          <rect x="30" y="29" width="5" height="4" rx="1" fill="#4a9eff" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="tab-name">Organization &amp; Charging</div>
+    </div>
+
+    <div class="tab" id="tab-crew" onclick="showCat('crew')">
+      <div class="tab-illo">
+        <svg width="44" height="44" viewBox="0 0 44 44">
+          <rect x="10" y="14" width="24" height="24" rx="4" fill="#163070"/>
+          <path d="M15 14 L15 8 Q15 5 22 5 Q29 5 29 8 L29 14" stroke="#2a5aaa" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M10 22 L34 22" stroke="#1a3a8a" stroke-width="1"/>
+          <path d="M10 30 L34 30" stroke="#1a3a8a" stroke-width="1"/>
+          <rect x="14" y="24" width="16" height="9" rx="2" fill="#0f2050"/>
+          <circle cx="15" cy="39" r="3" fill="#0a1628"/>
+          <circle cx="29" cy="39" r="3" fill="#0a1628"/>
+          <circle cx="15" cy="39" r="1.5" fill="#4a9eff" opacity="0.5"/>
+          <circle cx="29" cy="39" r="1.5" fill="#4a9eff" opacity="0.5"/>
+          <path d="M19 17 L22 13 L25 17 L22 16Z" fill="#4a9eff" opacity="0.8"/>
+        </svg>
+      </div>
+      <div class="tab-name">Crew Essentials</div>
+    </div>
+  </div>
+
+  <!-- COMFORT & SLEEP -->
+  <div id="comfort" class="cat-section active">
+    <div class="section-title">Comfort &amp; Sleep</div>
+    <div class="products">
+      <a class="product-card" href="https://www.amazon.com/YMOO-Bluetooth-Cancelling-Headphones-Headphone/dp/B0DK6HLXS5?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <path d="M14 26 Q14 10 26 10 Q38 10 38 26" stroke="#2a5aaa" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <rect x="9" y="24" width="9" height="14" rx="4" fill="#1a3a8a"/>
+            <rect x="34" y="24" width="9" height="14" rx="4" fill="#1a3a8a"/>
+            <rect x="11" y="26" width="5" height="10" rx="2" fill="#4a9eff" opacity="0.5"/>
+            <rect x="36" y="26" width="5" height="10" rx="2" fill="#4a9eff" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="product-name">YMOO ANC headphones — 100H battery, Bluetooth 6.0</div>
+        <div class="product-price">~$49</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+      <a class="product-card" href="https://www.amazon.com/Traveling-Upgraded-Airplane-Headrest-Accessories/dp/B07SRRQS5B?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <path d="M12 26 Q12 14 26 14 Q40 14 40 26 Q40 34 34 38 Q26 42 18 38 Q12 34 12 26Z" fill="#163070"/>
+            <rect x="20" y="10" width="12" height="10" fill="#0a0f1e"/>
+            <path d="M20 10 Q26 6 32 10" stroke="#2a5aaa" stroke-width="2" fill="none"/>
+            <path d="M16 22 Q20 20 24 22 Q28 24 32 22 Q36 20 38 22" stroke="#1a3a8a" stroke-width="1.5" fill="none"/>
+            <path d="M14 28 Q18 26 22 28 Q26 30 30 28 Q34 26 38 28" stroke="#1a3a8a" stroke-width="1.5" fill="none"/>
+            <rect x="22" y="38" width="8" height="5" rx="2" fill="#2a5aaa"/>
+          </svg>
+        </div>
+        <div class="product-name">napfun memory foam neck pillow — 100% pure foam</div>
+        <div class="product-price">~$26</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+      <a class="product-card" href="https://www.amazon.com/LitBear-Sleeper-Travel-Airplane-Office/dp/B0H1M9D3Z3?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <path d="M8 24 Q26 16 44 24 L44 34 Q26 42 8 34 Z" fill="#163070"/>
+            <path d="M10 24 Q26 18 42 24 L42 33 Q26 40 10 33 Z" fill="#1a3a8a"/>
+            <ellipse cx="19" cy="29" rx="8" ry="6" fill="#0f2050"/>
+            <ellipse cx="33" cy="29" rx="8" ry="6" fill="#0f2050"/>
+            <text x="19" y="13" font-size="8" fill="#4a9eff" opacity="0.5" font-family="Inter,sans-serif">z z z</text>
+          </svg>
+        </div>
+        <div class="product-name">LitBear silk sleep mask — 22 Momme mulberry silk</div>
+        <div class="product-price">~$18</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+      <a class="product-card" href="https://www.amazon.com/Travel-Compression-Socks-Graduated-Flight/dp/B07SJ8VFWH?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <path d="M14 8 L14 36 Q14 44 20 44 L24 44 Q26 44 26 42 L26 36 L14 36Z" fill="#163070"/>
+            <path d="M26 10 L26 36 Q26 44 32 44 L36 44 Q38 44 38 42 L38 36 L26 36Z" fill="#1a3a8a"/>
+            <rect x="12" y="6" width="14" height="6" rx="2" fill="#2a5aaa"/>
+            <rect x="24" y="8" width="14" height="6" rx="2" fill="#163070"/>
+            <line x1="14" y1="18" x2="26" y2="18" stroke="#4a9eff" stroke-width="1.2" opacity="0.5"/>
+            <line x1="14" y1="24" x2="26" y2="24" stroke="#4a9eff" stroke-width="1.2" opacity="0.5"/>
+            <line x1="14" y1="30" x2="26" y2="30" stroke="#4a9eff" stroke-width="1.2" opacity="0.5"/>
+            <line x1="26" y1="20" x2="38" y2="20" stroke="#7ac4ff" stroke-width="1.2" opacity="0.4"/>
+            <line x1="26" y1="26" x2="38" y2="26" stroke="#7ac4ff" stroke-width="1.2" opacity="0.4"/>
+            <line x1="26" y1="32" x2="38" y2="32" stroke="#7ac4ff" stroke-width="1.2" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="product-name">Compression socks 20-30 mmHg — graduated flight support</div>
+        <div class="product-price">~$14</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- HEALTH & CIRCULATION -->
+  <div id="health" class="cat-section">
+    <div class="section-title">Health &amp; Circulation</div>
+    <div class="products">
+      <a class="product-card" href="https://www.amazon.com/NuVein-Airplane-Travel-Circulation-Swelling/dp/B07PN4N7G2?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <path d="M16 6 L16 36 Q16 46 22 46 Q28 46 28 36 L28 6 Q28 2 22 2 Q16 2 16 6Z" fill="#163070"/>
+            <rect x="14" y="5" width="16" height="7" rx="3" fill="#2a5aaa"/>
+            <line x1="16" y1="18" x2="28" y2="18" stroke="#4a9eff" stroke-width="1.5" opacity="0.6"/>
+            <line x1="16" y1="24" x2="28" y2="24" stroke="#4a9eff" stroke-width="1.5" opacity="0.6"/>
+            <line x1="16" y1="30" x2="28" y2="30" stroke="#4a9eff" stroke-width="1.5" opacity="0.6"/>
+            <path d="M4 26 L10 26 L13 18 L17 34 L20 22 L22 28 L24 26 L48 26" stroke="#4a9eff" stroke-width="1.5" fill="none" opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="product-name">NuVein compression socks — medical grade 15-20 mmHg</div>
+        <div class="product-price">~$16</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+      <a class="product-card" href="https://www.amazon.com/Flypal-Inflatable-Blow-Up-Cushion-Flights/dp/B074T9CP81?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <rect x="6" y="28" width="40" height="16" rx="8" fill="#163070"/>
+            <rect x="9" y="31" width="34" height="10" rx="5" fill="#1a3a8a"/>
+            <path d="M10 28 Q26 20 42 28" stroke="#2a5aaa" stroke-width="2" fill="none"/>
+            <path d="M22 10 L22 26" stroke="#4a9eff" stroke-width="2" opacity="0.5" stroke-linecap="round"/>
+            <path d="M18 14 L22 10 L26 14" stroke="#4a9eff" stroke-width="2" fill="none" opacity="0.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="product-name">Flypal inflatable foot rest — adjustable height, adults + kids</div>
+        <div class="product-price">~$25</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+      <a class="product-card" href="https://www.amazon.com/Massager-Electric-Portable-Cordless-Airplane/dp/B08HYP9H2B?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <path d="M16 26 Q16 14 26 12 Q36 14 36 26 Q36 38 26 40 Q16 38 16 26Z" fill="#163070"/>
+            <path d="M18 26 Q18 16 26 14 Q34 16 34 26 Q34 36 26 38 Q18 36 18 26Z" fill="#1a3a8a"/>
+            <circle cx="26" cy="26" r="5" fill="#0f2050"/>
+            <circle cx="26" cy="26" r="3" fill="#4a9eff" opacity="0.4"/>
+            <path d="M20 14 Q26 10 32 14" stroke="#4a9eff" stroke-width="1.5" fill="none" opacity="0.5"/>
+            <path d="M20 38 Q26 42 32 38" stroke="#4a9eff" stroke-width="1.5" fill="none" opacity="0.5"/>
+            <rect x="24" y="6" width="4" height="8" rx="2" fill="#2a5aaa"/>
+          </svg>
+        </div>
+        <div class="product-name">Electric neck massager — 5 modes, 16 levels, cordless</div>
+        <div class="product-price">~$35</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+      <a class="product-card" href="https://www.amazon.com/Sunany-Inflatable-Airplane-Pillow-Adjustable-Traveling/dp/B07K69DZWK?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <ellipse cx="26" cy="34" rx="20" ry="10" fill="#163070"/>
+            <ellipse cx="26" cy="32" rx="17" ry="7" fill="#1a3a8a"/>
+            <path d="M10 32 Q26 22 42 32" stroke="#2a5aaa" stroke-width="2" fill="none"/>
+            <path d="M26 10 L26 22" stroke="#4a9eff" stroke-width="2" opacity="0.5" stroke-linecap="round"/>
+            <circle cx="26" cy="8" r="3" fill="#2a5aaa"/>
+          </svg>
+        </div>
+        <div class="product-name">Sunany inflatable foot rest — folds to 7"×4", only 0.8 lb</div>
+        <div class="product-price">~$20</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- KIDS & BABIES -->
+  <div id="kids" class="cat-section">
+    <div class="section-title">Kids &amp; Babies</div>
+    <div class="products">
+      <a class="product-card" href="https://www.amazon.com/Toddler-Headphones-Wireless-Headband-Earphones/dp/B0CHWB7BYP?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <path d="M14 26 Q14 12 26 12 Q38 12 38 26" stroke="#2a5aaa" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <rect x="9" y="24" width="9" height="12" rx="4" fill="#1a3a8a"/>
+            <rect x="34" y="24" width="9" height="12" rx="4" fill="#1a3a8a"/>
+            <rect x="11" y="26" width="5" height="8" rx="2" fill="#4a9eff" opacity="0.5"/>
+            <rect x="36" y="26" width="5" height="8" rx="2" fill="#4a9eff" opacity="0.5"/>
+            <path d="M18 12 Q14 6 18 4 Q22 2 22 6" stroke="#4a9eff" stroke-width="1.5" fill="none" opacity="0.5"/>
+            <path d="M34 12 Q38 6 34 4 Q30 2 30 6" stroke="#4a9eff" stroke-width="1.5" fill="none" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="product-name">CozyPhones toddler headphones — safe 90dB, wireless + wired</div>
+        <div class="product-price">~$30</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+      <a class="product-card" href="https://www.amazon.com/toddler-headphones-wired-kids-baby-1-2-3-year-old-infant-plane-girls-boys-school-child-earphones-head-phones-children-headphones/dp/B07PXDXSJJ?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <path d="M15 24 Q15 11 26 11 Q37 11 37 24" stroke="#163070" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <rect x="10" y="22" width="10" height="13" rx="4" fill="#1a3a8a"/>
+            <rect x="32" y="22" width="10" height="13" rx="4" fill="#1a3a8a"/>
+            <rect x="12" y="24" width="6" height="9" rx="2" fill="#4a9eff" opacity="0.5"/>
+            <rect x="34" y="24" width="6" height="9" rx="2" fill="#4a9eff" opacity="0.5"/>
+            <line x1="26" y1="35" x2="26" y2="46" stroke="#2a5aaa" stroke-width="2"/>
+            <circle cx="26" cy="47" r="2" fill="#4a9eff" opacity="0.7"/>
+            <text x="17" y="9" font-size="8" fill="#4a9eff" opacity="0.5" font-family="Inter,sans-serif" font-weight="500">85dB</text>
+          </svg>
+        </div>
+        <div class="product-name">Kidrox wired headphones — 85dB volume limit, ages 1-7</div>
+        <div class="product-price">~$22</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+      <a class="product-card" href="https://www.amazon.com/MAMAZING-Protection-Cancelling-Headphones-Airplanes/dp/B0F61WLW52?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <path d="M10 26 Q10 14 26 12 Q42 14 42 26 Q42 36 26 38 Q10 36 10 26Z" fill="#163070"/>
+            <path d="M13 26 Q13 16 26 15 Q39 16 39 26 Q39 34 26 36 Q13 34 13 26Z" fill="#1a3a8a"/>
+            <ellipse cx="26" cy="26" rx="10" ry="8" fill="#0f2050"/>
+            <path d="M10 24 Q6 24 4 26 Q6 30 10 28" stroke="#2a5aaa" stroke-width="2" fill="none"/>
+            <path d="M42 24 Q46 24 48 26 Q46 30 42 28" stroke="#2a5aaa" stroke-width="2" fill="none"/>
+            <text x="15" y="5" font-size="9" fill="#4a9eff" opacity="0.5" font-family="Inter,sans-serif">25dB</text>
+          </svg>
+        </div>
+        <div class="product-name">MAMAZING baby ear muffs — 25dB, newborns to 48 months</div>
+        <div class="product-price">~$28</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+      <a class="product-card" href="https://www.amazon.com/Inflatable-Airplane-Adjustable-Toddlers-car%EF%BC%88Grey/dp/B07DQBY83F?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <rect x="6" y="26" width="40" height="16" rx="8" fill="#163070"/>
+            <rect x="9" y="29" width="34" height="10" rx="5" fill="#1a3a8a"/>
+            <path d="M10 26 Q26 18 42 26" stroke="#2a5aaa" stroke-width="2" fill="none"/>
+            <path d="M20 8 L20 24" stroke="#4a9eff" stroke-width="2" opacity="0.5" stroke-linecap="round"/>
+            <path d="M16 12 L20 8 L24 12" stroke="#4a9eff" stroke-width="2" fill="none" opacity="0.5" stroke-linecap="round"/>
+            <circle cx="32" cy="16" r="8" fill="#163070" opacity="0.9"/>
+            <circle cx="32" cy="16" r="5" fill="#1a3a8a"/>
+            <circle cx="30" cy="14" r="1.5" fill="#4a9eff" opacity="0.7"/>
+            <circle cx="34" cy="14" r="1.5" fill="#4a9eff" opacity="0.7"/>
+            <path d="M30 18 Q32 20 34 18" stroke="#4a9eff" stroke-width="0.8" fill="none"/>
+          </svg>
+        </div>
+        <div class="product-name">Inflatable kids airplane bed — converts economy seat to flat bed</div>
+        <div class="product-price">~$19</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ORGANIZATION & CHARGING -->
+  <div id="org" class="cat-section">
+    <div class="section-title">Organization &amp; Charging</div>
+    <div class="products">
+      <a class="product-card" href="https://www.amazon.com/FYY-Electronic-Organizer-Accessories-Waterproof/dp/B0924H4XB9?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <rect x="8" y="10" width="28" height="26" rx="5" fill="#163070"/>
+            <rect x="11" y="13" width="22" height="8" rx="3" fill="#0f2050"/>
+            <rect x="11" y="24" width="10" height="7" rx="2" fill="#0f2050"/>
+            <rect x="23" y="24" width="10" height="7" rx="2" fill="#0f2050"/>
+            <path d="M10 10 Q22 7 36 10" stroke="#2a5aaa" stroke-width="2" fill="none"/>
+            <circle cx="22" cy="8" r="2.5" fill="#4a9eff"/>
+            <path d="M27 17 Q34 17 36 24 Q38 30 33 32" stroke="#4a9eff" stroke-width="1.5" fill="none" opacity="0.7"/>
+            <rect x="31" y="31" width="5" height="4" rx="1" fill="#4a9eff" opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="product-name">FYY cable organizer pouch — waterproof double layer, 8 pockets</div>
+        <div class="product-price">~$13</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+      <a class="product-card" href="https://www.amazon.com/BAGAIL-Packing-Lightweight-Organizers-Toiletry/dp/B08S35399Y?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <rect x="4" y="8" width="20" height="16" rx="3" fill="#163070"/>
+            <rect x="28" y="8" width="20" height="16" rx="3" fill="#1a3a8a"/>
+            <rect x="4" y="28" width="20" height="16" rx="3" fill="#1a3a8a"/>
+            <rect x="28" y="28" width="20" height="16" rx="3" fill="#163070"/>
+            <line x1="4" y1="16" x2="24" y2="16" stroke="#4a9eff" stroke-width="1" opacity="0.4"/>
+            <line x1="28" y1="16" x2="48" y2="16" stroke="#4a9eff" stroke-width="1" opacity="0.4"/>
+            <line x1="4" y1="36" x2="24" y2="36" stroke="#4a9eff" stroke-width="1" opacity="0.4"/>
+            <line x1="28" y1="36" x2="48" y2="36" stroke="#4a9eff" stroke-width="1" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="product-name">BAGAIL packing cubes 8-set — water-repellent, lightweight</div>
+        <div class="product-price">~$22</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+      <a class="product-card" href="https://www.amazon.com/INIU-Portable-High-Speed-Flashlight-Compatible/dp/B0CB1FW5FC?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <rect x="14" y="6" width="24" height="38" rx="5" fill="#163070"/>
+            <rect x="17" y="9" width="18" height="28" rx="3" fill="#0f2050"/>
+            <rect x="20" y="40" width="12" height="4" rx="2" fill="#1a3a8a"/>
+            <line x1="22" y1="3" x2="22" y2="6" stroke="#2a5aaa" stroke-width="2"/>
+            <line x1="30" y1="3" x2="30" y2="6" stroke="#2a5aaa" stroke-width="2"/>
+            <path d="M22 18 L26 14 L26 20 L30 20 L26 26 L26 20 Z" fill="#4a9eff" opacity="0.7"/>
+            <text x="18" y="37" font-size="7" fill="#4a9eff" opacity="0.5" font-family="Inter,sans-serif">45W</text>
+          </svg>
+        </div>
+        <div class="product-name">INIU power bank 45W — 10,000mAh, TSA-approved, USB-C</div>
+        <div class="product-price">~$30</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+      <a class="product-card" href="https://www.amazon.com/BAGSMART-Universal-Organizer-Electronics-Accessories/dp/B017SKRWL4?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <rect x="6" y="12" width="40" height="30" rx="5" fill="#163070"/>
+            <rect x="9" y="15" width="16" height="10" rx="2" fill="#0f2050"/>
+            <rect x="27" y="15" width="16" height="10" rx="2" fill="#0f2050"/>
+            <rect x="9" y="28" width="34" height="9" rx="2" fill="#0f2050"/>
+            <path d="M8 12 Q26 8 44 12" stroke="#2a5aaa" stroke-width="2" fill="none"/>
+            <circle cx="26" cy="10" r="2" fill="#4a9eff"/>
+          </svg>
+        </div>
+        <div class="product-name">BAGSMART electronics organizer — fits tablet, power bank, cables</div>
+        <div class="product-price">~$20</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- CREW ESSENTIALS -->
+  <div id="crew" class="cat-section">
+    <div class="section-title">Crew Essentials</div>
+    <div class="products">
+      <a class="product-card" href="https://www.amazon.com/Gloppie-Flight-Luggage-Trolley-Sleeve/dp/B0FLQHQWQF?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <rect x="8" y="14" width="28" height="30" rx="4" fill="#163070"/>
+            <rect x="36" y="20" width="8" height="22" rx="3" fill="#1a3a8a"/>
+            <path d="M8 24 L36 24" stroke="#1a3a8a" stroke-width="1"/>
+            <rect x="11" y="26" width="22" height="12" rx="2" fill="#0f2050"/>
+            <path d="M8 14 Q22 10 36 14" stroke="#2a5aaa" stroke-width="1.5" fill="none"/>
+          </svg>
+        </div>
+        <div class="product-name">Gloppie crew lunch bag — trolley sleeve, leakproof, 15L</div>
+        <div class="product-price">~$38</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+      <a class="product-card" href="https://www.amazon.com/EMPSIGN-Luggage-Spinner-Suitcase-Approved/dp/B0D9NYMC9Q?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <rect x="10" y="10" width="32" height="32" rx="5" fill="#163070"/>
+            <path d="M18 10 L18 4 Q18 2 26 2 Q34 2 34 4 L34 10" stroke="#2a5aaa" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <line x1="10" y1="22" x2="42" y2="22" stroke="#1a3a8a" stroke-width="1"/>
+            <line x1="10" y1="32" x2="42" y2="32" stroke="#1a3a8a" stroke-width="1"/>
+            <rect x="16" y="24" width="20" height="8" rx="2" fill="#0f2050"/>
+            <circle cx="17" cy="44" r="4" fill="#0a1628"/>
+            <circle cx="35" cy="44" r="4" fill="#0a1628"/>
+            <circle cx="17" cy="44" r="2" fill="#4a9eff" opacity="0.5"/>
+            <circle cx="35" cy="44" r="2" fill="#4a9eff" opacity="0.5"/>
+            <path d="M22 16 L26 12 L30 16 L26 15Z" fill="#4a9eff" opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="product-name">EMPSIGN carry-on 20" — TSA lock, spinner, airline approved</div>
+        <div class="product-price">~$65</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+      <a class="product-card" href="https://www.amazon.com/Samsonite-Freeform-Hardside-Spinner-Black/dp/B01M0A3BKH?tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <rect x="8" y="8" width="36" height="36" rx="6" fill="#1a3a8a"/>
+            <path d="M18 8 L18 2 Q18 0 26 0 Q34 0 34 2 L34 8" stroke="#4a9eff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <line x1="8" y1="20" x2="44" y2="20" stroke="#2a5aaa" stroke-width="1.5"/>
+            <line x1="8" y1="32" x2="44" y2="32" stroke="#2a5aaa" stroke-width="1.5"/>
+            <rect x="14" y="22" width="24" height="10" rx="2" fill="#0f2050"/>
+            <circle cx="16" cy="46" r="4" fill="#0a1628"/>
+            <circle cx="36" cy="46" r="4" fill="#0a1628"/>
+            <circle cx="16" cy="46" r="2" fill="#4a9eff" opacity="0.5"/>
+            <circle cx="36" cy="46" r="2" fill="#4a9eff" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="product-name">Samsonite Freeform carry-on — hardshell, spinner wheels</div>
+        <div class="product-price">~$120</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+      <a class="product-card" href="https://www.amazon.com/tsa-approved-toiletry-bag/s?k=tsa+approved+toiletry+bag&tag=flyest08-20">
+        <div class="product-illo">
+          <svg width="70" height="70" viewBox="0 0 52 52">
+            <path d="M10 16 Q10 8 26 8 Q42 8 42 16 L42 38 Q42 46 26 46 Q10 46 10 38 Z" fill="#163070"/>
+            <path d="M13 18 Q13 12 26 12 Q39 12 39 18 L39 36 Q39 42 26 42 Q13 42 13 36 Z" fill="#1a3a8a"/>
+            <path d="M10 16 Q26 12 42 16" stroke="#2a5aaa" stroke-width="2" fill="none"/>
+            <circle cx="26" cy="14" r="3" fill="#4a9eff"/>
+            <rect x="18" y="20" width="16" height="6" rx="2" fill="#0f2050"/>
+            <rect x="18" y="29" width="7" height="7" rx="2" fill="#0f2050"/>
+            <rect x="27" y="29" width="7" height="7" rx="2" fill="#0f2050"/>
+          </svg>
+        </div>
+        <div class="product-name">TSA-approved toiletry bag — hanging hook, leak-proof, transparent</div>
+        <div class="product-price">~$15</div>
+        <span class="product-btn">View on Amazon →</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>© 2024 Flyest · flyest08-20</span>
+  <span>As an Amazon Associate I earn from qualifying purchases.</span>
+</footer>
+
+<script>
+function showCat(id) {
+  document.querySelectorAll('.cat-section').forEach(function(s){ s.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+</script>
+</body>
+</html>
